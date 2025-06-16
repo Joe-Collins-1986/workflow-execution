@@ -39,17 +39,20 @@ jobs:
         run: |
           npm ci
 
-      - name: Run tests
+      - name: Test code
+        id: test-code
         run: |
           npm run test
 
       - name: Upload test results
+        if: steps.test-code.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: test.json
 
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Get code
