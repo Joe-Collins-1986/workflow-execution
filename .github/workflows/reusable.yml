@@ -7,9 +7,18 @@ on:
         description: Name of the deployable artifact
         required: false
         default: dist
+    outputs:
+      result:
+        description: The result of the operation
+        value: ${{ jobs.deploy.outputs.outcome }}
+    secrets:
+      some-secret:
+        required: false
 
 jobs:
   deploy:
+    outputs:
+      outcome: ${{ steps.set-step-result.outputs.step-result }}
     runs-on: ubuntu-latest
     steps:
       - name: Get code
@@ -23,3 +32,7 @@ jobs:
           ls
       - name: Output information
         run: echo "This is a reusable workflow example."
+
+      - name: Set output
+        id: set-step-result
+        run: echo "step-result=success" >> $GITHUB_OUTPUT
