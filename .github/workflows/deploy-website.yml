@@ -1,7 +1,8 @@
 name: Deploy Website
 on:
   push:
-    branches: main
+    branches:
+      - main
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -9,17 +10,8 @@ jobs:
       - name: Get code
         uses: actions/checkout@v4
 
-      - name: Cache dependencies
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: |
-          npm ci
+      - name: Load and Cache Dependencies
+        uses: ./.github/actions/cached-deps
 
       - name: Lint code
         run: |
