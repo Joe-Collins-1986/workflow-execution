@@ -94,3 +94,12 @@ jobs:
       - name: Deploy
         run: |
           echo "Deploying website..."
+
+  report:
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output error message
+        run: |
+          echo "Something went wrong"
+          echo "{{ github }}"
