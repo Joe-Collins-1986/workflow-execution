@@ -58,18 +58,32 @@ jobs:
           name: dist-files
           path: dist
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: src-files
+          path: src
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Get build artifacts
+      - name: Get dist build artifacts
         uses: actions/download-artifact@v4
         with:
           name: dist-files
-          path: ./
       - name: output content
         run: |
           echo "Content of dist directory:"
+          ls
+
+      - name: Get src build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: src-files
+      - name: output content
+        run: |
+          echo "Content of src directory:"
           ls
 
       - name: Deploy
