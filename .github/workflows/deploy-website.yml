@@ -12,6 +12,8 @@ jobs:
 
       - name: Load and Cache Dependencies
         uses: ./.github/actions/cached-deps
+        with:
+          caching: "false"
 
       - name: Lint code
         run: |
@@ -81,6 +83,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: src-files
+          path: ./src
       - name: output content
         run: |
           echo "Content of src directory:"
